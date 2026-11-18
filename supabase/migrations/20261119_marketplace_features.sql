@@ -77,6 +77,11 @@ alter table public.seller_follows enable row level security;
 alter table public.announcements enable row level security;
 alter table public.admin_activity_logs enable row level security;
 
+-- Explicit API-role grants are required in addition to RLS policies.
+-- RLS controls rows; GRANT controls whether the API roles may access each table.
+grant select, insert, delete on public.wishlists to authenticated;
+grant select, update on public.notifications to authenticated;
+
 -- Idempotent policies for newly added tables.
 drop policy if exists wishlist_owner_all on public.wishlists;
 create policy wishlist_owner_all on public.wishlists for all to authenticated
