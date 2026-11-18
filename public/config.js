@@ -1,6 +1,7 @@
-/* Supabase browser configuration. The publishable/anon key is designed to be public.
-   Never put a Supabase service_role key in this file. */
+
+/* Supabase browser configuration */
+
 window.HUBBY_CONFIG = {
-  supabaseUrl: "https://sihcwswxwluvcrhgejii.supabase.co/rest/",
+  supabaseUrl: "https://sihcwswxwluvcrhgejii.supabase.co",
   supabaseAnonKey: "sb_publishable_BydScY7kc1btydf5KSRFJA_W-Zd2J-u"
 };
