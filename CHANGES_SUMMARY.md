@@ -1,38 +1,32 @@
-# Fresh rebuild summary
+# Feature update — Neon Noir Marketplace
 
-This is a ground-up implementation, not a patch of the previous React/TanStack Start source.
+## Frontend features added
+- Buyer/seller dashboard with listing, order, sale and rating summaries.
+- Wishlist save/remove and saved-listings page.
+- Notification center with mark-all-read.
+- Seller withdrawal request form/history.
+- Admin analytics overview and withdrawal review queue.
+- Listing category and rank fields plus category filtering.
+- About, FAQ, privacy, terms, refund and safety pages.
+- Existing dark Neon Noir theme and motion styling retained.
 
-## New architecture
+## Additive Supabase migration
+`supabase/migrations/20261119_marketplace_features.sql` adds wishlist, notifications, withdrawal requests, seller follows, announcements, admin activity logs, listing metadata and account-status support, with RLS policies and order-status notification triggers. It does not drop/recreate existing business tables.
 
-- Static HTML/CSS/JavaScript app (no SSR, no server runtime, no Node build command)
-- Supabase browser client loaded as an ES module
-- New consolidated Supabase schema and RLS policies in `supabase/schema.sql`
-- Admin-only database operations use SECURITY DEFINER RPC functions with permission checks
-- Static route fallback in `vercel.json` for direct URLs such as `/buy/<id>`, `/deal/<id>`, `/seller/<id>`, and `/admin`
-- No service-role key is required or permitted in browser code
+## Preserved
+- `public/config.js` remains unchanged (same existing Supabase URL/key).
+- Existing `supabase/schema.sql` remains unchanged.
+- Existing GitHub/Vercel project structure retained.
+- No new Supabase project or API key required.
 
-## Feature set carried forward
+## Not fully implemented / requires separate secure backend
+- Automated JazzCash/Easypaisa gateway verification (manual admin review remains).
+- Real escrow/refund automation and seller payout transfer (withdrawals are requests for manual admin processing).
+- Announcement publishing UI and seller-follow UI (database foundations are included).
+- Full edit workflow for approved listings and advanced fraud analytics.
+- Credential encryption vault. The legacy Gmail password collection/storage is not safe for production and must be replaced before accepting real credentials.
 
-- Marketplace listings, search, sort, filters and listing image gallery
-- Signup/login and seller profiles/storefronts
-- Sell ID flow with up to six photos and linked Gmail credentials
-- Admin listing approval/rejection and listing/credential review
-- JazzCash/Easypaisa payment settings and buyer screenshot submission
-- Admin screenshot verification, payment approval, automatic listing sold status and Gmail access release
-- Buyer/seller orders, deal chat, admin chat, transfer checklist and deal reports
-- Deal completion with 10% admin fee / 90% seller payout
-- Buyer reviews, public seller ratings and verified-seller threshold (3 completed sales)
-- Admin dashboard, permissions, team management, user list, payment settings and site appearance controls
-- Hubby AI local rules helper and WhatsApp support contacts
-
-## Reused reference assets only
-
-The original logo/artwork and self-hosted font files are retained so the new app can keep the same visual identity. Application code and database setup have been newly authored.
-
-## Validation performed
-
-- `node --check public/app.js` — passed
-- `node --check public/config.js` — passed
-- `python -m json.tool vercel.json` — passed
-- Python HTML parser on `public/index.html` — passed
-- Live Supabase integration, SQL execution and Vercel deployment have not been run in this workspace; follow README and complete the checklist before accepting payments.
+## Validation
+- `node --check public/app.js` passed.
+- `node --check public/config.js` passed.
+- Live Supabase migration, RLS behavior and Vercel deployment were not executed here.

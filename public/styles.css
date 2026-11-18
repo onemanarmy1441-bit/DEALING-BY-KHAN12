@@ -3,3 +3,59 @@
 @media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.navlinks{gap:10px}.navlinks a{font-size:15px}.brand{font-size:22px}.split{gap:18px}.stats{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:650px){body{font-size:16px}.wrap{width:min(100% - 24px,1160px)}.nav{height:62px}.brand img{width:38px;height:38px}.navlinks{display:none;position:absolute;top:62px;left:0;right:0;background:#17120f;border-bottom:1px solid var(--line);padding:16px;flex-direction:column;align-items:stretch}.navlinks.open{display:flex}.nav-actions .btn{padding:8px 10px}.mobile-menu{display:inline-flex}.grid,.grid.two{grid-template-columns:1fr}.hero{padding:34px 0 24px}.hero-logo{width:112px;height:112px}.page{padding-top:24px}.form-card{padding:19px;margin:20px auto}.split{grid-template-columns:1fr}.gallery-main{height:290px}.section-head{align-items:start;flex-direction:column}.tabs{overflow:auto;flex-wrap:nowrap}.tab{white-space:nowrap}.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:18;display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));background:#17120ff2;border-top:1px solid var(--line)}.bottom-nav a{font-size:12px;font-weight:700;color:var(--muted);display:grid;justify-items:center;gap:1px}.bottom-nav a.active{color:var(--gold)}.footer{padding-bottom:82px}.whatsapp{bottom:76px;left:12px;padding:9px 12px}.assistant{bottom:76px;right:12px}.assistant button{width:48px;height:48px}.stats{grid-template-columns:repeat(2,1fr)}}
 :root.light{color-scheme:light;--bg:#f7f3ed;--panel:#fffaf4;--panel2:#f0e7dc;--text:#241a13;--muted:#78695c;--line:#dfd0bf}html.light body{background:radial-gradient(ellipse at 15% -5%,#f2cba455,transparent 38%),var(--bg);color:var(--text)}html.light .topbar,html.light .bottom-nav{background:#fffaf4ed}html.light .card{background:linear-gradient(160deg,#fffaf4,#f7eee4)}html.light .field input,html.light .field textarea,html.light .field select,html.light .control,html.light .toolbar input,html.light .toolbar select{background:#fff;color:#241a13}html.light .chat-box{background:#f4ece3}html.light .bubble{background:#ead9c8;color:#241a13}html.light .bubble.mine{background:#f5d0a9}html.light .admin-hero{background:#fff5e9}html.light .stat{background:#fffaf4}html.light .tabs{background:#eee3d7}html.light .navlinks{background:#fffaf4}html.light .notice{color:#65451b;background:#fff0ce}html.light .toast{background:#fffaf4;color:#241a13}
+
+
+/* === HUBBY NEON NOIR THEME — black / electric violet / ice cyan === */
+:root{--bg:#07070b;--panel:#101018;--panel2:#191925;--text:#f5f4ff;--muted:#a5a4bb;--line:#302c49;--fire:#9b6bff;--gold:#42e8f5;--green:#45d6a0;--red:#ff667d;--radius:18px;--glow:0 0 28px #8d5cff22}
+html,body{min-height:100%;background-color:var(--bg)}
+body{background:radial-gradient(ellipse at 12% -8%,#8d5cff28,transparent 38%),radial-gradient(ellipse at 92% 8%,#20d9ed17,transparent 32%),linear-gradient(180deg,#08080e 0%,#07070b 65%,#0b0a13 100%);background-attachment:fixed}
+.topbar{background:#090910eF;border-bottom-color:#34304c;box-shadow:0 8px 30px #0005}
+.brand b,.fire{background-image:linear-gradient(110deg,#c4a6ff 5%,#9b6bff 48%,#42e8f5 100%)}
+.navlinks a:hover,.navlinks a.active,.bottom-nav a.active{color:var(--gold)}
+.btn{border-color:#393451;background:linear-gradient(145deg,#1b1a29,#12121b);transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease,background .22s ease}
+.btn:hover{transform:translateY(-3px);border-color:var(--fire);box-shadow:0 8px 24px #9b6bff2b}
+.btn.primary,.tab.active{background:linear-gradient(115deg,#9b6bff,#42cfe5);color:#080811;border:0;box-shadow:0 6px 24px #8b5cf644}
+.btn.green{background:#10352d;border-color:#237b65;color:#9bf5d4}
+.card{background:linear-gradient(150deg,#171625 0%,#101018 68%,#11121d 100%);border-color:#302c49;box-shadow:0 16px 42px #0005, inset 0 1px #ffffff08;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.card:hover{border-color:#6651a0;box-shadow:0 18px 48px #0007,0 0 24px #8d5cff14}
+.listing-img,.gallery-main{background:#0b0b13}
+.listing-placeholder{background:linear-gradient(135deg,#201a35,#101722);color:#a58bdb}
+.price,.stat strong,.stars{color:var(--gold)}
+.pill{background:#302548;color:#d6c5ff}.pill.green{background:#12392f;color:#8af0c5}.pill.red{background:#421e2b;color:#ff9cac}.pill.blue{background:#15343f;color:#9beaf5}
+.field label{color:#ded9f4}
+.field input,.field textarea,.field select,.control,.toolbar input,.toolbar select{background:#0c0c14;border-color:#34314b;color:var(--text)}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--gold);box-shadow:0 0 0 3px #42e8f51c}
+.tabs{background:#0b0b13;border-color:#302c49}
+.tab{transition:color .2s ease,background .2s ease}
+.chat-box{background:#0b0b13;border-color:#302c49}.bubble{background:#252039}.bubble.mine{background:#273d4b}.bubble small{color:#b9b2d6}
+.admin-hero{background:radial-gradient(ellipse at 12% 0%,#9b6bff27,transparent 55%),radial-gradient(ellipse at 100% 100%,#42e8f51a,transparent 45%),var(--panel);border-color:#393451}
+.stat{background:#11111b;border-color:#34314b}
+.notice{background:#29213b;border-color:#5a4787;color:#e1d5ff}
+.topbar,.card,.admin-hero,.form-card,.stat,.tabs,.btn,.listing-img,.hero-banner{animation:softReveal .55s both}
+.hero-logo{animation:logoFloat 5s ease-in-out infinite;filter:drop-shadow(0 12px 28px #9b6bff55)}
+.hero-banner{box-shadow:0 14px 42px #0007,0 0 24px #42e8f512;transition:transform .35s ease,box-shadow .35s ease}
+.hero-banner:hover{transform:translateY(-4px);box-shadow:0 18px 50px #0008,0 0 28px #42e8f522}
+.grid>.card{animation:cardRise .55s both}.grid>.card:nth-child(2){animation-delay:.06s}.grid>.card:nth-child(3){animation-delay:.12s}.grid>.card:nth-child(4){animation-delay:.18s}.grid>.card:nth-child(5){animation-delay:.24s}.grid>.card:nth-child(6){animation-delay:.30s}
+.listing-img{transition:transform .45s ease,filter .45s ease}.card:hover .listing-img{filter:saturate(1.12);transform:scale(1.025)}
+.spinner{border-color:#38304f;border-top-color:var(--gold)}
+.toast{background:#171625;border-color:var(--gold);box-shadow:0 12px 38px #0009,0 0 20px #42e8f51a}
+.assistant button{background:linear-gradient(130deg,#9b6bff,#42d9ed);color:#080811;box-shadow:0 8px 30px #8d5cff55;animation:assistantPulse 3s ease-in-out infinite}
+.assistant-panel{background:#11111b;border-color:#393451}
+.whatsapp{box-shadow:0 8px 28px #0008}
+.footer{border-color:#302c49}
+@keyframes softReveal{from{opacity:0}to{opacity:1}}
+@keyframes cardRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes assistantPulse{0%,100%{box-shadow:0 8px 30px #8d5cff44}50%{box-shadow:0 8px 36px #42e8f566}}
+@media(hover:hover){.navlinks a{transition:color .2s ease}.listing-img:hover{filter:brightness(1.06)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media(max-width:650px){.navlinks{background:#090910f5;border-color:#34304c}.bottom-nav{background:#090910f5;border-color:#34304c}.hero-logo{animation:none}.grid>.card{animation-duration:.35s}}
+/* Keep the existing optional light mode readable when selected in Admin. */
+:root.light{--bg:#f4f1fb;--panel:#fff;--panel2:#eeeaf7;--text:#201a2c;--muted:#716982;--line:#d8d0e8}
+html.light body{background:radial-gradient(ellipse at 12% -8%,#c8b4ff55,transparent 38%),radial-gradient(ellipse at 92% 8%,#a7edf455,transparent 32%),var(--bg)}
+html.light .topbar,html.light .bottom-nav{background:#fffF}
+html.light .card{background:linear-gradient(150deg,#fff,#f6f3fc)}
+html.light .field input,html.light .field textarea,html.light .field select,html.light .control,html.light .toolbar input,html.light .toolbar select{background:#fff;color:#201a2c}
+html.light .chat-box{background:#f3effa}html.light .bubble{background:#e8e0f5;color:#201a2c}html.light .bubble.mine{background:#d6eff3;color:#201a2c}
+html.light .admin-hero,html.light .stat,html.light .tabs{background:#fff}html.light .notice{color:#49376b;background:#f0eaff}
+html.light .assistant-panel,html.light .toast{background:#fff;color:#201a2c}
