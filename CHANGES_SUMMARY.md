@@ -1,6 +1,5 @@
 # Website update summary
 
-## Frontend features added
 This package keeps the existing Supabase project configuration and existing website email/password authentication.
 
 ## Included in this update
