@@ -76,11 +76,3 @@ Before using the new color controls, run this one additive migration in the EXIS
 `supabase/migrations/20261123_admin_full_color_control.sql`
 
 Do not create a new Supabase project and do not rerun `supabase/schema.sql` on an existing project. Existing data and email/password authentication are retained.
-
-## UI refinement update (2026-11-19)
-
-- Refined the existing Rajdhani + Teko gaming typography and heading hierarchy.
-- Added a compact three-dot quick menu for profile, wishlist, notifications, withdrawals, support, admin panel, and logout (signed-in users); FAQ/support for signed-out visitors.
-- Standardized marketplace listing and gallery image aspect ratios, card heights, spacing, form control sizes, and responsive layouts.
-- Added keyboard focus styling and reduced-motion handling for the quick menu.
-- This is a front-end-only refinement: no new Supabase schema, migration, credentials, or project configuration is introduced.
