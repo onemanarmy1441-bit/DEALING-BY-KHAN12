@@ -90,6 +90,7 @@ body{font-size:18px;line-height:1.48;letter-spacing:.012em}
 
 /* DEALING BY KHAN12 feature badges */
 .pill.gold{background:rgba(255,190,55,.16);color:#ffc65a;border:1px solid rgba(255,190,55,.45)}
+<<<<<<< HEAD
 
 
 /* MOBILE-FIRST POLISH — presentation only; no application or Supabase logic changed */
@@ -185,3 +186,5 @@ table{min-width:560px}
   .hero-logo{width:70px;height:70px}
   .bottom-nav a{min-height:42px}
 }
+=======
+>>>>>>> 1f2edc5c53c3a2854d875ea0fba984a5839afcab
