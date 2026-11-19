@@ -76,3 +76,38 @@ Before using the new color controls, run this one additive migration in the EXIS
 `supabase/migrations/20261123_admin_full_color_control.sql`
 
 Do not create a new Supabase project and do not rerun `supabase/schema.sql` on an existing project. Existing data and email/password authentication are retained.
+
+
+## DEALING BY KHAN12 feature update (19 Nov 2026)
+
+This update is additive to the existing Supabase project. It adds seller verification applications, paid listing promotions, and seller/admin listing moderation with an audit trail.
+
+### Important: apply the new migration to the EXISTING Supabase project
+
+1. Open the existing Supabase project (do not create a new one).
+2. Open **SQL Editor**.
+3. Open and copy the complete contents of `supabase/migrations/20261125_verified_sellers_promotions_moderation.sql`.
+4. Run it once in the existing project.
+5. Deploy this project ZIP to the same GitHub repository / Vercel project.
+
+Do **not** run `supabase/schema.sql` as a replacement/reset. Do not delete tables, buckets, users, or data. The new migration only adds columns, tables, functions, policies and a private receipt bucket.
+
+### Seller verification
+
+Default requirements are 3 completed sales, 7 days account age, completed profile (name and bio), phone number, and no open deal reports by default. Admins with `users` permission can change the deal, age and open-complaint thresholds, review applications, approve/reject, suspend, revoke or restore verification. Approved sellers receive a badge and new listings are auto-approved by a database trigger. Open deal reports are treated conservatively as complaints because the existing project does not have a separate complaint-severity field.
+
+### Paid promotions
+
+Default packages are 24 hours (Rs. 300), 3 days (Rs. 700), and 7 days (Rs. 1,400). Admins with `payments` permission can change prices, configure JazzCash, EasyPaisa and bank-transfer details, and manually approve/reject/cancel promotion requests. Sellers upload a receipt; payment is not automatic. A promotion starts only when an admin approves it. Expired promotions are excluded from the public featured section and are marked expired during site activity. Removing a listing cancels its promotion; refund decisions remain manual.
+
+### Listing moderation
+
+Sellers can hide, restore or remove their own listings from the public marketplace, hide or restore them from the dashboard. Admins with `listings` permission can hide, restore or remove any listing with a reason. Removal is archived (`hidden`) rather than physically deleting the database row, so existing order references and audit history are not destroyed. Actions are recorded in `listing_moderation_history`. Removing/hiding a promoted listing cancels the promotion; no automatic refund is promised.
+
+### Profile phone number
+
+Sellers can add or update their phone number under **My Profile**. It is used for verification eligibility and is not displayed as a public phone contact.
+
+### Deployment note
+
+Keep the existing `public/config.js` Supabase URL and anon/publishable key unchanged. Never put a Supabase service-role key in browser code.

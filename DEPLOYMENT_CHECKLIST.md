@@ -33,3 +33,13 @@ Run `supabase/migrations/20261124_order_integrity_refunds.sql` in the existing S
 
 ## Additional order/refund update
 Run `supabase/migrations/20261124_order_integrity_refunds.sql` in the existing Supabase SQL Editor after the earlier additive migrations. This adds a server-side price/seller integrity check and manual refund status. Refund money must still be transferred manually by an authorized Admin; the website does not move money automatically.
+
+
+## New feature migration
+
+- [ ] Back up the existing Supabase project before applying schema changes.
+- [ ] Run `supabase/migrations/20261125_verified_sellers_promotions_moderation.sql` once in the existing project's SQL Editor.
+- [ ] Confirm the private `promotion-receipts` storage bucket was created.
+- [ ] Configure promotion payment account details and package prices in Admin → Promotions.
+- [ ] Verify the existing `public/config.js` still points to the original Supabase project.
+- [ ] Deploy the updated files to the existing GitHub/Vercel project.

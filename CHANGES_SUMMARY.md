@@ -25,3 +25,12 @@ The global palette is saved through an admin-only database function and is visib
 - Added manual refund tracking: Admin can mark a rejected order as refunded only after sending the money through the original payment method. Refunds are not automatic.
 - Added a database-side order integrity trigger so the actual listing price and seller ID are taken from the approved listing, not trusted from browser form values.
 - Profile photo upload now has separate Gallery and Camera choices.
+
+
+## 19 Nov 2026 feature additions
+- Seller verification application flow with configurable deal, account-age and complaint thresholds.
+- Database trigger automatically approves new listings for verified sellers.
+- Paid promotion packages (24h / 3d / 7d), private receipt upload, manual admin approval and expiry.
+- Configurable JazzCash, EasyPaisa and bank-transfer instructions for promotions.
+- Seller-owned hide/restore/delete actions and admin moderation with reasons and audit history.
+- Existing tables and data preserved; apply the new additive migration to the existing Supabase project.
