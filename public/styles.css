@@ -505,3 +505,166 @@ main.wrap .grid > .card .listing-img,
     padding: 5px;
   }
 }
+
+
+/* ==========================================================
+   COMPACT SQUARE MARKETPLACE CARDS — all screen sizes
+   ========================================================== */
+.listing-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.listing-card > .listing-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center;
+  flex: 0 0 auto;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: #090711;
+}
+.listing-card > .listing-placeholder {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  padding: 10px;
+  font-size: clamp(15px, 2vw, 25px);
+  text-align: center;
+}
+.listing-card-body {
+  min-width: 0;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 7px;
+  padding: 12px;
+}
+.listing-badges {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  white-space: nowrap;
+  min-height: 20px;
+}
+.listing-badges .pill {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 10px;
+  line-height: 1.25;
+  padding: 3px 6px;
+}
+.listing-title {
+  min-width: 0;
+  margin: 0;
+  font-size: clamp(15px, 1.4vw, 20px);
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.listing-meta {
+  margin: 0;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.listing-card .listing-price {
+  margin: 0;
+  font-size: clamp(20px, 2vw, 29px);
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+}
+.listing-seller {
+  min-width: 0;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.listing-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch;
+  gap: 6px;
+  margin-top: auto;
+  min-width: 0;
+}
+.listing-actions .btn {
+  min-width: 0;
+  min-height: 36px;
+  padding: 7px 9px;
+  font-size: 13px;
+  line-height: 1.15;
+  white-space: normal;
+  text-align: center;
+}
+.listing-actions .listing-save {
+  min-width: 38px;
+  padding: 6px 8px;
+}
+@media (min-width: 1280px) {
+  .page.wrap .grid, main.wrap .grid, .section.wrap .grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 15px;
+  }
+}
+@media (min-width: 900px) and (max-width: 1279px) {
+  .page.wrap .grid, main.wrap .grid, .section.wrap .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 13px;
+  }
+}
+@media (max-width: 899px) {
+  .page.wrap .grid, main.wrap .grid, .section.wrap .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 10px;
+  }
+}
+@media (max-width: 650px) {
+  .listing-card { border-radius: 11px; }
+  .listing-card-body { padding: 7px; gap: 5px; }
+  .listing-badges { min-height: 16px; gap: 3px; }
+  .listing-badges .pill { font-size: 8px; padding: 2px 4px; }
+  .listing-title { font-size: 13px; line-height: 1.15; }
+  .listing-meta { font-size: 10px; }
+  .listing-card .listing-price { font-size: clamp(15px, 4.1vw, 21px); }
+  .listing-seller { display: none; }
+  .listing-actions { gap: 4px; }
+  .listing-actions .btn { min-height: 30px; padding: 5px 4px; font-size: 10px; }
+  .listing-actions .listing-save { min-width: 28px; padding: 4px; }
+  .listing-actions .listing-save span { display: none; }
+}
+@media (max-width: 380px) {
+  .page.wrap .grid, main.wrap .grid, .section.wrap .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 6px;
+  }
+  .listing-card-body { padding: 5px; gap: 4px; }
+  .listing-title { font-size: 12px; }
+  .listing-meta { font-size: 9px; }
+  .listing-card .listing-price { font-size: 14px; }
+  .listing-actions .btn { font-size: 9px; min-height: 28px; }
+}
