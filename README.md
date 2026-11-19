@@ -1,4 +1,4 @@
-# Hubby Khan Dealing Hub — Existing Project Update
+# KHAN DEALING HUB — Existing Project Update
 
 This repository update keeps the current static HTML/CSS/JavaScript application and adds a **Neon Noir** visual theme: deep black surfaces, electric violet highlights, ice-cyan accents, subtle card reveals, hover motion, a floating hero logo, and reduced-motion accessibility support. Existing marketplace behavior is retained.
 
