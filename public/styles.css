@@ -668,3 +668,164 @@ main.wrap .grid > .card .listing-img,
   .listing-card .listing-price { font-size: 14px; }
   .listing-actions .btn { font-size: 9px; min-height: 28px; }
 }
+
+
+/* FINAL MARKETPLACE REDESIGN: clean horizontal LIST rows */
+.page.wrap .grid,
+main.wrap .grid,
+.section.wrap .grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 12px !important;
+  align-items: stretch;
+}
+.listing-row {
+  display: grid !important;
+  grid-template-columns: 150px minmax(0, 1fr);
+  align-items: stretch;
+  min-width: 0;
+  border-radius: 15px;
+  overflow: hidden;
+  min-height: 150px;
+}
+.listing-row > .listing-img {
+  width: 150px !important;
+  height: 100% !important;
+  min-height: 150px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border: 0;
+  border-right: 1px solid var(--line);
+  background: #090711;
+}
+.listing-row > .listing-placeholder {
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  font-size: 20px;
+  text-align: center;
+}
+.listing-row .listing-card-body {
+  min-width: 0;
+  padding: 13px 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto auto 1fr;
+  column-gap: 14px;
+  row-gap: 5px;
+  align-items: center;
+}
+.listing-row .listing-badges {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  flex-wrap: wrap;
+  overflow: visible;
+  white-space: normal;
+  gap: 5px;
+}
+.listing-row .listing-badges .pill {
+  max-width: none;
+  font-size: 11px;
+  padding: 3px 8px;
+}
+.listing-row .listing-title {
+  grid-column: 1;
+  grid-row: 2;
+  font-size: clamp(18px, 2vw, 23px);
+  line-height: 1.12;
+  margin: 0;
+}
+.listing-row .listing-meta {
+  grid-column: 1;
+  grid-row: 3;
+  font-size: 13px;
+}
+.listing-row .listing-price {
+  grid-column: 2;
+  grid-row: 2 / 4;
+  align-self: center;
+  text-align: right;
+  white-space: nowrap;
+  font-size: clamp(22px, 2.5vw, 30px);
+}
+.listing-row .listing-seller {
+  grid-column: 1;
+  grid-row: 4;
+  align-self: end;
+  font-size: 12px;
+}
+.listing-row .listing-actions {
+  grid-column: 2;
+  grid-row: 4;
+  display: flex;
+  justify-content: flex-end;
+  align-self: end;
+  margin: 0;
+  gap: 7px;
+}
+.listing-row .listing-actions .btn {
+  min-height: 38px;
+  padding: 8px 13px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.listing-row .listing-actions .listing-save { min-width: 42px; }
+@media (max-width: 650px) {
+  .page.wrap .grid,
+  main.wrap .grid,
+  .section.wrap .grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 9px !important;
+  }
+  .listing-row {
+    grid-template-columns: 104px minmax(0, 1fr);
+    min-height: 112px;
+    border-radius: 12px;
+  }
+  .listing-row > .listing-img {
+    width: 104px !important;
+    min-height: 112px;
+    height: 100% !important;
+    aspect-ratio: 1 / 1;
+  }
+  .listing-row .listing-card-body {
+    padding: 8px 9px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 5px;
+    row-gap: 4px;
+  }
+  .listing-row .listing-badges { gap: 3px; }
+  .listing-row .listing-badges .pill {
+    font-size: 9px;
+    padding: 2px 5px;
+  }
+  .listing-row .listing-title { font-size: 16px; }
+  .listing-row .listing-meta { font-size: 11px; }
+  .listing-row .listing-price {
+    font-size: clamp(17px, 4.5vw, 22px);
+  }
+  .listing-row .listing-seller {
+    font-size: 10px;
+    display: block;
+  }
+  .listing-row .listing-actions { gap: 4px; }
+  .listing-row .listing-actions .btn {
+    min-height: 31px;
+    padding: 5px 8px;
+    font-size: 10px;
+  }
+  .listing-row .listing-actions .listing-save {
+    min-width: 31px;
+    padding: 4px 6px;
+  }
+  .listing-row .listing-actions .listing-save span { display: none; }
+}
+@media (max-width: 380px) {
+  .listing-row { grid-template-columns: 88px minmax(0, 1fr); min-height: 100px; }
+  .listing-row > .listing-img { width: 88px !important; min-height: 100px; }
+  .listing-row .listing-card-body { padding: 7px; }
+  .listing-row .listing-title { font-size: 14px; }
+  .listing-row .listing-meta { font-size: 10px; }
+  .listing-row .listing-price { font-size: 16px; }
+  .listing-row .listing-actions .btn { font-size: 9px; padding: 4px 6px; }
+}
