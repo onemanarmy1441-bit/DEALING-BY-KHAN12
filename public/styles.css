@@ -253,3 +253,119 @@ body{font-size:18px;line-height:1.48;letter-spacing:.012em}
   .toolbar { padding: 9px; gap: 7px; }
   .toolbar input, .toolbar select { font-size: 13px; }
 }
+
+
+
+/* STORM GUST DISPLAY FONT — headings only; keep UI text highly readable */
+@font-face{
+  font-family:'Storm Gust';
+  src:url('/site-assets/storm-gust.ttf') format('truetype');
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+}
+.hero h1,.admin-hero h1,.admin-hero h2,.page-title-storm{
+  font-family:'Storm Gust',TekoGaming,Impact,sans-serif!important;
+  letter-spacing:.025em;
+}
+
+/* ADMIN PANEL: mobile typography, wrapping and touch layout */
+.admin-hero h1{
+  font-size:clamp(27px,5vw,46px);
+  line-height:1.12;
+  overflow-wrap:anywhere;
+}
+.admin-hero .muted,.admin-hero p{overflow-wrap:anywhere}
+.admin-hero .stats{margin-top:18px}
+.admin-hero .stat strong{font-size:clamp(22px,3vw,32px)}
+.admin-hero + .tabs{max-width:100%}
+.admin-hero ~ .tabs .tab{line-height:1.25}
+#app{min-width:0;overflow-x:clip}
+.page,.page>*{min-width:0}
+.table-wrap{width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.table{width:100%}
+.admin-hero,.admin-hero *,.tabs,.tabs *,.card,.card *{overflow-wrap:anywhere}
+.admin-hero .row,.card .row{min-width:0}
+.admin-hero .btn,.card .btn{white-space:normal;line-height:1.25}
+
+@media(max-width:650px){
+  /* Decorative display font stays on the main headings only. */
+  .hero h1,.admin-hero h1{
+    font-size:clamp(25px,8vw,36px);
+    line-height:1.15;
+    letter-spacing:0;
+  }
+  .admin-hero{
+    padding:14px!important;
+    border-radius:15px;
+    gap:10px;
+  }
+  .admin-hero .eyebrow{font-size:10px;line-height:1.5}
+  .admin-hero .muted,.admin-hero p{font-size:13px;line-height:1.5}
+  .admin-hero .stats{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+  }
+  .admin-hero .stat{
+    min-width:0;
+    padding:10px;
+    border-radius:12px;
+  }
+  .admin-hero .stat strong{
+    display:block;
+    font-size:clamp(20px,6vw,27px)!important;
+    line-height:1.15;
+    overflow-wrap:anywhere;
+  }
+  .admin-hero .stat span{font-size:12px;line-height:1.35}
+  .page:has(>.admin-hero){gap:12px}
+  .page:has(>.admin-hero)>.tabs{
+    width:100%;
+    max-width:100%;
+    margin:0;
+    padding:6px;
+    gap:6px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    flex-wrap:nowrap;
+    scrollbar-width:thin;
+    -webkit-overflow-scrolling:touch;
+  }
+  .page:has(>.admin-hero)>.tabs .tab{
+    flex:0 0 auto;
+    min-height:40px;
+    padding:9px 12px;
+    font-size:13px;
+    line-height:1.2;
+    white-space:nowrap;
+  }
+  .page:has(>.admin-hero) .card{
+    min-width:0;
+    padding:13px;
+  }
+  .page:has(>.admin-hero) h2{font-size:25px;line-height:1.2}
+  .page:has(>.admin-hero) h3{font-size:21px;line-height:1.2}
+  .page:has(>.admin-hero) label,
+  .page:has(>.admin-hero) .field label{font-size:14px;line-height:1.4}
+  .page:has(>.admin-hero) input,
+  .page:has(>.admin-hero) select,
+  .page:has(>.admin-hero) textarea{font-size:15px;max-width:100%}
+  .page:has(>.admin-hero) .row{flex-wrap:wrap;gap:8px}
+  .page:has(>.admin-hero) .row>.btn{flex:1 1 125px}
+  .page:has(>.admin-hero) .table-wrap{margin:0 -1px}
+  .page:has(>.admin-hero) .table{min-width:600px}
+  .page:has(>.admin-hero) .table th,
+  .page:has(>.admin-hero) .table td{
+    padding:9px 10px;
+    font-size:13px;
+    line-height:1.4;
+    vertical-align:top;
+  }
+  .page:has(>.admin-hero) .help,
+  .page:has(>.admin-hero) .muted{font-size:13px;line-height:1.5}
+}
+@media(max-width:380px){
+  .admin-hero .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .page:has(>.admin-hero)>.tabs .tab{font-size:12px;padding:8px 10px}
+}
