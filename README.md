@@ -1,85 +1,113 @@
-# Hubby Dealing Hub — Fresh Rebuild
+# Hubby Khan Dealing Hub — Existing Project Update
 
-A new, lightweight static web app rebuilt from the original Hubby Dealing Hub feature set. It uses plain JavaScript modules, Supabase Auth, Supabase Database, and Supabase Storage. There is no SSR server or Node build step, so deployment is simpler and the site does not depend on the old TanStack Start runtime.
+This repository update keeps the current static HTML/CSS/JavaScript application and adds a **Neon Noir** visual theme: deep black surfaces, electric violet highlights, ice-cyan accents, subtle card reveals, hover motion, a floating hero logo, and reduced-motion accessibility support. Existing marketplace behavior is retained.
 
-## Features included
+## Important: update the existing deployment only
 
-- Free Fire marketplace with listing search, filters, sorting, photos, seller names and prices
-- Email/password signup and login
-- Seller listing submission, up to six images, Gmail transfer details and admin approval queue
-- Buyer checkout with JazzCash/Easypaisa selection and payment screenshot upload
-- Buyer/seller order history and statuses
-- Deal chat after admin payment approval, shared Gmail-transfer checklist, buyer Gmail delivery, reports and reviews
-- Public seller storefront, profile photo, cover photo, bio, seller ratings and completed-sale stats
-- Admin dashboard: sell requests, payments/orders, deal chats, payment settings, appearance, all listings/credentials, users and admin team permissions
-- Offline rules-based Hubby AI helper and WhatsApp support links
-- Dark/light appearance preference controlled from Admin → Appearance
+- Continue using the **same GitHub repository** and existing Vercel project.
+- Continue using the **same Supabase project**, database, Auth users, Storage buckets, and policies.
+- `public/config.js` is intentionally preserved. Do not replace the existing Supabase URL or publishable/anon key.
+- Do **not** create a new Supabase project.
+- Do **not** run `supabase/schema.sql` as a fresh setup. It is the project's schema reference, not an instruction to reset or recreate an already-running database.
+- This feature update includes one additive migration at `supabase/migrations/20261119_marketplace_features.sql`. Apply it to the existing Supabase project only after taking a backup and reviewing the SQL. Do not run `supabase/schema.sql` as a fresh setup.
 
-## 1. Create a new Supabase project
+## Update the existing GitHub repository
 
-1. Open [Supabase](https://supabase.com/dashboard) and create a **new project**.
-2. Choose a strong database password and save it somewhere safe.
-3. Wait until the project is ready.
-4. Open **SQL Editor → New query**.
-5. Open `supabase/schema.sql`, copy the complete contents, paste into SQL Editor, and click **Run**.
-6. Open **Project Settings → API** (or API Keys) and copy the Project URL and the publishable/anon key.
-7. After deploying, open **Authentication → URL Configuration** in Supabase. Set **Site URL** to your Vercel URL and add that URL (plus `http://localhost:8000` for local testing) to **Redirect URLs**.
-8. Edit `public/config.js` and replace `YOUR-PROJECT-REF` and `YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY` with those values.
+1. Back up the current repository/production deployment first.
+2. Replace the matching project files with the updated files from this folder, or commit the changes as a normal update to the existing branch.
+3. Keep the existing `public/config.js` values and existing Vercel project settings.
+4. Push to the same GitHub repository. The existing Vercel Git integration should deploy the commit automatically.
+5. Check the deployed homepage, navigation, listing cards, login, seller flow, orders, deal pages, and admin pages.
 
-Only the Supabase publishable/anon key belongs in `public/config.js`. It is designed for browser use and protected by Row Level Security. **Never put the `service_role` key in `public/config.js`, HTML, JavaScript, or GitHub.** This project does not need a service-role key in the browser.
+## Supabase and keys
 
-## 2. Create the first Super Admin
+This visual update does not require Supabase setup, new API keys, new environment variables, SQL execution, or a database reset. Existing browser configuration is retained in `public/config.js`. Never expose a Supabase service-role/secret key in browser code or GitHub.
 
-1. Deploy the website (or run it locally) and open `/auth`.
-2. Sign up using the email address that should own the website.
-3. If Supabase email confirmation is enabled, confirm the email and then log in.
-4. In Supabase, open **SQL Editor** and run this query after replacing the email with your exact owner email:
+If a future feature needs a database change, create a narrowly scoped, additive migration only after checking the live schema and policies. Back up first; do not drop/recreate existing tables, policies, buckets, users, or data.
 
-```sql
-insert into public.admin_members(user_id,email,role,permissions,is_active)
-select id,email,'super_admin',array['*']::text[],true
-from auth.users
-where lower(email)=lower('YOUR_OWNER_EMAIL@example.com')
-on conflict(user_id) do update
-set role='super_admin',permissions=array['*']::text[],is_active=true;
-```
+## Design notes
 
-5. Refresh the website and open `/admin`.
-6. In Admin Team, another person must first register a normal account. Then add their email, role and permissions.
+- Default palette: black / electric violet / ice cyan.
+- Existing optional light mode remains available.
+- Existing custom primary/accent colors saved in Admin → Appearance remain respected. The original default orange/gold colors are mapped to the new violet/cyan palette in the UI.
+- Animations respect the operating system's `prefers-reduced-motion` setting.
 
-Admin changes are checked by SQL functions and Row Level Security, not just by hiding controls in the browser.
+## Added features in this update
 
-## 3. Deploy — easiest option: Vercel
+- Buyer/seller dashboard with order and listing summaries.
+- Wishlist save/remove and wishlist page.
+- Order status notifications and notification center.
+- Seller withdrawal requests and admin approval/rejection queue.
+- Admin overview metrics.
+- Listing category/rank fields and category filter.
+- About, FAQ, privacy, terms, refund and safety information pages.
+- Additive database foundations for seller follows, announcements and admin activity logs.
+- Existing orders/reports remain the basis for purchase history and dispute reporting.
 
-1. Create a GitHub account if needed.
-2. Create a new repository, for example `hubby-dealing-hub`.
-3. Upload the contents of this folder to the repository root (not the parent folder).
-4. Open [Vercel New Project](https://vercel.com/new), connect GitHub, and import the repository.
-5. Framework preset: **Other**. Build command: leave empty. Output directory: `public`.
-6. Deploy. `vercel.json` sends app routes back to `index.html` so direct links such as `/buy/id` and `/admin` load correctly.
+## Database migration
 
-No environment variables are needed in Vercel for this static build because the public Supabase URL and publishable/anon key are in `public/config.js`. If you prefer Vercel environment variables, a Vite build-based setup is required; do not paste a service-role key into this static app.
+1. Back up the existing Supabase database.
+2. Open Supabase SQL Editor for the SAME existing project.
+3. Review and run `supabase/migrations/20261119_marketplace_features.sql` once.
+4. Do not run `supabase/schema.sql`; it is the original schema reference, not a fresh-install step.
+5. Run `20261121_remove_email_credentials_private_seller_area.sql` if it has not already been applied.
+6. Run `20261122_seller_area_admin_only.sql` to restrict seller city/area to admins only.
+7. Confirm the RLS policies, then test with buyer, seller and admin accounts.
 
-## 4. Local preview
+## Important security limitation
 
-Because this is a browser-module app, serve the folder over HTTP rather than opening `index.html` directly. For example, with Python installed:
+The current listing flow does not collect Gmail addresses or passwords. The migration removes the legacy `listing_credentials` table. Never collect personal email passwords or OTPs, and never place Supabase service-role keys in browser code.
 
-```bash
-cd public
-python -m http.server 8000
-```
+## Validation
 
-Then open `http://localhost:8000`.
+Run `node --check public/app.js` and `node --check public/config.js`. A successful syntax check does not replace a live smoke test. Live Supabase and Vercel access is not available during this local package update, so verify the deployed app using the existing accounts and data before accepting transactions.
 
-## Important security notes
 
-- `public/config.js` contains only the public publishable/anon key. Row Level Security protects database operations.
-- Payment account numbers and titles are initially blank. The Super Admin must configure them in Admin → Payment Settings before accepting payments.
-- Gmail account credentials are sensitive. They are stored in Supabase and access is restricted to the seller, an eligible buyer after payment approval, and authorized admins. Use this feature only for accounts you are authorized to transfer. Buyers should change passwords and recovery methods immediately after transfer.
-- Payment screenshot storage is private. Admins with payment permissions and the uploading buyer can access receipts.
-- The Hubby AI helper is local rules-based help, not a generative AI model and not a website/code repair agent.
-- The included WhatsApp contact numbers are carried over from the supplied project. Change them in `app.js` if the support numbers have changed.
+## Seller privacy and account handover update
 
-## Testing note
+The listing form does not collect a Free Fire-linked Gmail address or password. The seller city/area is stored separately and is visible only to authorized admins through row-level security; do not collect exact home addresses or live locations. Account handover should be coordinated in the approved deal chat. Never request personal email passwords or OTPs. Seller payout is an admin-managed process after deal completion; this project does not automatically transfer funds or issue refunds.
 
-This project was created as a static app to avoid the previous server-rendering deployment path. The source files are checked for JavaScript syntax before release, but a live Supabase project and Vercel deployment are not available from this workspace. Complete the new Supabase setup and test signup, listing submission, payment screenshot, admin approval, deal chat and credential delivery before accepting real payments.
+## Admin full website color control (latest update)
+
+The Admin → Appearance tab now controls ten global palette colors: background, panels/header, cards, main text, secondary text, borders, primary buttons/glow, accent highlights, success states, and error/rejected states. Admin can also restore the default palette. Saved colors are stored in the existing `site_customization` row and shared across visitors.
+
+Before using the new color controls, run this one additive migration in the EXISTING Supabase SQL Editor:
+
+`supabase/migrations/20261123_admin_full_color_control.sql`
+
+Do not create a new Supabase project and do not rerun `supabase/schema.sql` on an existing project. Existing data and email/password authentication are retained.
+
+
+## DEALING BY KHAN12 feature update (19 Nov 2026)
+
+This update is additive to the existing Supabase project. It adds seller verification applications, paid listing promotions, and seller/admin listing moderation with an audit trail.
+
+### Important: apply the new migration to the EXISTING Supabase project
+
+1. Open the existing Supabase project (do not create a new one).
+2. Open **SQL Editor**.
+3. Open and copy the complete contents of `supabase/migrations/20261125_verified_sellers_promotions_moderation.sql`.
+4. Run it once in the existing project.
+5. Deploy this project ZIP to the same GitHub repository / Vercel project.
+
+Do **not** run `supabase/schema.sql` as a replacement/reset. Do not delete tables, buckets, users, or data. The new migration only adds columns, tables, functions, policies and a private receipt bucket.
+
+### Seller verification
+
+Default requirements are 3 completed sales, 7 days account age, completed profile (name and bio), phone number, and no open deal reports by default. Admins with `users` permission can change the deal, age and open-complaint thresholds, review applications, approve/reject, suspend, revoke or restore verification. Approved sellers receive a badge and new listings are auto-approved by a database trigger. Open deal reports are treated conservatively as complaints because the existing project does not have a separate complaint-severity field.
+
+### Paid promotions
+
+Default packages are 24 hours (Rs. 300), 3 days (Rs. 700), and 7 days (Rs. 1,400). Admins with `payments` permission can change prices, configure JazzCash, EasyPaisa and bank-transfer details, and manually approve/reject/cancel promotion requests. Sellers upload a receipt; payment is not automatic. A promotion starts only when an admin approves it. Expired promotions are excluded from the public featured section and are marked expired during site activity. Removing a listing cancels its promotion; refund decisions remain manual.
+
+### Listing moderation
+
+Sellers can hide, restore or remove their own listings from the public marketplace, hide or restore them from the dashboard. Admins with `listings` permission can hide, restore or remove any listing with a reason. Removal is archived (`hidden`) rather than physically deleting the database row, so existing order references and audit history are not destroyed. Actions are recorded in `listing_moderation_history`. Removing/hiding a promoted listing cancels the promotion; no automatic refund is promised.
+
+### Profile phone number
+
+Sellers can add or update their phone number under **My Profile**. It is used for verification eligibility and is not displayed as a public phone contact.
+
+### Deployment note
+
+Keep the existing `public/config.js` Supabase URL and anon/publishable key unchanged. Never put a Supabase service-role key in browser code.

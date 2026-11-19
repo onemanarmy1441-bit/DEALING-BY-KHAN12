@@ -52,14 +52,6 @@ create table if not exists public.listings (
 create index if not exists listings_status_idx on public.listings(status,created_at desc);
 create index if not exists listings_seller_idx on public.listings(seller_id);
 
-create table if not exists public.listing_credentials (
-  listing_id uuid primary key references public.listings(id) on delete cascade,
-  seller_id uuid not null references public.profiles(id) on delete cascade,
-  gmail text not null check(char_length(gmail) between 6 and 254 and gmail ~* '^[^@[:space:]]+@[^@[:space:]]+[.][^@[:space:]]+$'),
-  gmail_password text not null check(char_length(gmail_password) between 1 and 200),
-  created_at timestamptz not null default now()
-);
-
 create table if not exists public.orders (
   id uuid primary key default gen_random_uuid(), listing_id uuid not null references public.listings(id) on delete cascade,
   buyer_id uuid not null references public.profiles(id) on delete cascade, seller_id uuid not null references public.profiles(id) on delete cascade,
@@ -198,7 +190,7 @@ begin
 end; $$;
 create or replace function public.admin_update_order(_order_id uuid,_status text,_fee int default null)
 returns void language plpgsql security definer set search_path=public as $$
-declare amt int; listing uuid; current_status text; gmail_value text; admin_fee_value int; payout_value int;
+declare amt int; listing uuid; current_status text; admin_fee_value int; payout_value int;
 begin
  if not public.is_active_admin('payments') and not public.is_active_admin('deals') then raise exception 'Not authorized'; end if;
  select amount,listing_id,status into amt,listing,current_status from public.orders where id=_order_id for update;
@@ -208,7 +200,6 @@ begin
  if _status='rejected' and current_status not in ('payment_pending','screenshot_verified') then raise exception 'Only unapproved orders can be rejected'; end if;
  if _status='completed' and current_status<>'payment_approved' then raise exception 'Only approved deals can be marked done'; end if;
  if _status not in ('screenshot_verified','payment_approved','completed','rejected') then raise exception 'Invalid status'; end if;
- if _status='payment_approved' then select gmail into gmail_value from public.listing_credentials where listing_id=listing; end if;
  admin_fee_value:=case when _fee is not null then greatest(0,least(_fee,amt)) else round(amt*0.10)::int end;
  payout_value:=amt-admin_fee_value;
  update public.orders set status=_status,
@@ -217,14 +208,12 @@ begin
   completed_at=case when _status='completed' then now() else completed_at end,
   admin_fee=case when _status='completed' then admin_fee_value else admin_fee end,
   seller_payout=case when _status='completed' then payout_value else seller_payout end,
-  delivered_at=case when _status='payment_approved' and gmail_value is not null then now() when _status='payment_approved' then null else delivered_at end
+  delivered_at=case when _status='payment_approved' then now() else delivered_at end
  where id=_order_id;
  if _status='payment_approved' then
    update public.listings set status='sold',reviewed_at=coalesce(reviewed_at,now()) where id=listing;
    insert into public.deal_messages(order_id,sender_id,sender_role,body)
-   values(_order_id,null,'admin',case when gmail_value is not null
-    then 'Payment approved by admin. Gmail ID delivered to buyer. Password is in the Your Gmail ID box. Buyer, please follow the secure checklist and change the password now.'
-    else 'Payment approved by admin. Deal chat is now open. Seller, please share the ID and Gmail details here and follow the secure checklist.' end);
+   values(_order_id,null,'admin','Payment approved by admin. Deal chat is now open. Buyer and seller, coordinate the Free Fire account handover here. Never share personal email passwords or OTPs.');
  elsif _status='completed' then
    insert into public.deal_messages(order_id,sender_id,sender_role,body)
    values(_order_id,null,'admin',format('Deal Done. Admin fee 10%%: Rs %s. Seller payout 90%%: Rs %s. Buyer, please rate the seller.',admin_fee_value,payout_value));
@@ -273,7 +262,6 @@ alter table public.profiles enable row level security;
 alter table public.payment_settings enable row level security;
 alter table public.site_customization enable row level security;
 alter table public.listings enable row level security;
-alter table public.listing_credentials enable row level security;
 alter table public.orders enable row level security;
 alter table public.deal_messages enable row level security;
 alter table public.deal_reports enable row level security;
@@ -294,10 +282,6 @@ drop policy if exists listings_insert_own on public.listings;
 create policy listings_insert_own on public.listings for insert to authenticated with check(seller_id=auth.uid() and status='pending');
 drop policy if exists listings_update_own_pending on public.listings;
 create policy listings_update_own_pending on public.listings for update to authenticated using(seller_id=auth.uid() and status='pending') with check(seller_id=auth.uid() and status='pending');
-drop policy if exists credentials_insert_own on public.listing_credentials;
-create policy credentials_insert_own on public.listing_credentials for insert to authenticated with check(seller_id=auth.uid() and exists(select 1 from public.listings l where l.id=listing_id and l.seller_id=auth.uid() and l.status='pending'));
-drop policy if exists credentials_read_allowed on public.listing_credentials;
-create policy credentials_read_allowed on public.listing_credentials for select to authenticated using(seller_id=auth.uid() or exists(select 1 from public.orders o where o.listing_id=listing_id and o.buyer_id=auth.uid() and o.status in ('payment_approved','completed')) or public.is_active_admin('credentials'));
 drop policy if exists orders_read_participants on public.orders;
 create policy orders_read_participants on public.orders for select to authenticated using(buyer_id=auth.uid() or seller_id=auth.uid() or public.is_active_admin('payments') or public.is_active_admin('deals'));
 drop policy if exists orders_insert_buyer on public.orders;
@@ -323,7 +307,6 @@ grant insert,select,update on public.listings to authenticated;
 grant select,insert on public.orders,public.deal_messages,public.deal_reports to authenticated;
 grant select on public.reviews to anon,authenticated;
 revoke insert on public.reviews from authenticated;
-grant select,insert on public.listing_credentials to authenticated;
 grant execute on function public.is_active_admin(text) to anon,authenticated;
 grant execute on function public.is_deal_participant(uuid) to authenticated;
 grant execute on function public.set_checklist_item(uuid,text,boolean) to authenticated;

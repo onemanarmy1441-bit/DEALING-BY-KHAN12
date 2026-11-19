@@ -1,38 +1,36 @@
-# Fresh rebuild summary
+# Website update summary
 
-This is a ground-up implementation, not a patch of the previous React/TanStack Start source.
+This package keeps the existing Supabase project configuration and existing website email/password authentication.
 
-## New architecture
+## Included in this update
+- Buyer/seller profile editing: display name, bio, profile photo, and cover photo.
+- Existing marketplace, wishlist, notifications, admin dashboard, seller/buyer deal chat, handover checklist, and deal-report/complaint workflow retained.
+- Admin appearance panel now includes global color controls for website background, panels/header, cards, main text, secondary text, borders, primary buttons/glow, accent highlights, success states, and error/rejected states.
+- Admin can choose Dark/Light mode, update brand name and homepage text, and update logo/banner.
+- Admin can restore the default color palette.
+- Existing Free Fire linked Gmail/password fields are not part of the seller listing form; the deal chat is for coordination, and the site warns users never to share personal email passwords or OTPs.
+- Seller city/area and an optional private game-account proof image are stored separately from public listings; RLS and a private storage bucket restrict proof access to authorized Admins. The form discourages entering an exact home address or uploading face photos, identity documents, personal Gmail details, or OTPs.
 
-- Static HTML/CSS/JavaScript app (no SSR, no server runtime, no Node build command)
-- Supabase browser client loaded as an ES module
-- New consolidated Supabase schema and RLS policies in `supabase/schema.sql`
-- Admin-only database operations use SECURITY DEFINER RPC functions with permission checks
-- Static route fallback in `vercel.json` for direct URLs such as `/buy/<id>`, `/deal/<id>`, `/seller/<id>`, and `/admin`
-- No service-role key is required or permitted in browser code
+## Required database step for full color control
+Run only `supabase/migrations/20261123_admin_full_color_control.sql` in the existing Supabase SQL Editor. This is an additive migration and does not create a new Supabase project or replace existing data. Do not rerun `supabase/schema.sql` on the existing project.
 
-## Feature set carried forward
+The global palette is saved through an admin-only database function and is visible to all site visitors after refresh.
 
-- Marketplace listings, search, sort, filters and listing image gallery
-- Signup/login and seller profiles/storefronts
-- Sell ID flow with up to six photos and linked Gmail credentials
-- Admin listing approval/rejection and listing/credential review
-- JazzCash/Easypaisa payment settings and buyer screenshot submission
-- Admin screenshot verification, payment approval, automatic listing sold status and Gmail access release
-- Buyer/seller orders, deal chat, admin chat, transfer checklist and deal reports
-- Deal completion with 10% admin fee / 90% seller payout
-- Buyer reviews, public seller ratings and verified-seller threshold (3 completed sales)
-- Admin dashboard, permissions, team management, user list, payment settings and site appearance controls
-- Hubby AI local rules helper and WhatsApp support contacts
+## Validation
+- JavaScript syntax check passed with Node.js.
+- Supabase live integration and real user/admin permissions have not been tested from this package; test on a preview deployment before production use.
+- Added manual refund tracking: Admin can mark a rejected order as refunded only after sending the money through the original payment method. Refunds are not automatic.
+- Added a database-side order integrity trigger so the actual listing price and seller ID are taken from the approved listing, not trusted from browser form values.
+- Profile photo upload now exposes separate Gallery and Camera choices.
+- Added manual refund tracking: Admin can mark a rejected order as refunded only after sending the money through the original payment method. Refunds are not automatic.
+- Added a database-side order integrity trigger so the actual listing price and seller ID are taken from the approved listing, not trusted from browser form values.
+- Profile photo upload now has separate Gallery and Camera choices.
 
-## Reused reference assets only
 
-The original logo/artwork and self-hosted font files are retained so the new app can keep the same visual identity. Application code and database setup have been newly authored.
-
-## Validation performed
-
-- `node --check public/app.js` — passed
-- `node --check public/config.js` — passed
-- `python -m json.tool vercel.json` — passed
-- Python HTML parser on `public/index.html` — passed
-- Live Supabase integration, SQL execution and Vercel deployment have not been run in this workspace; follow README and complete the checklist before accepting payments.
+## 19 Nov 2026 feature additions
+- Seller verification application flow with configurable deal, account-age and complaint thresholds.
+- Database trigger automatically approves new listings for verified sellers.
+- Paid promotion packages (24h / 3d / 7d), private receipt upload, manual admin approval and expiry.
+- Configurable JazzCash, EasyPaisa and bank-transfer instructions for promotions.
+- Seller-owned hide/restore/delete actions and admin moderation with reasons and audit history.
+- Existing tables and data preserved; apply the new additive migration to the existing Supabase project.
